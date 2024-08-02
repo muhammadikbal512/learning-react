@@ -13,26 +13,44 @@ const coreConceptArray = [
     title: "Components",
     description: "Reusable pieces of code",
     img: componentImg,
+    field: "components",
   },
   {
     title: "Props",
     description: "Data passed to components",
     img: jsxImg,
+    field: "props",
   },
   {
     title: "State",
     description: "Data managed by components",
     img: stateImg,
+    field: "state",
   },
   {
     title: "Jsx",
     description: "How to customize React",
     img: configImg,
+    field: "jsx",
   },
 ];
 
 function App() {
-  const [selectedTopic, setSelectedTopic] = useState("components");
+  const [selectedTopic, setSelectedTopic] = useState();
+
+  let tabContent = <p>PLease select a topic</p>;
+
+  if (selectedTopic) {
+    tabContent = (
+      <div id="tab-content">
+        <h3>{EXAMPLES[selectedTopic].title}</h3>
+        <p>{EXAMPLES[selectedTopic].description}</p>
+        <pre>
+          <code>{EXAMPLES[selectedTopic].code}</code>
+        </pre>
+      </div>
+    );
+  }
 
   function clickHandle(selectedButton) {
     const newStr =
@@ -48,12 +66,7 @@ function App() {
           <h2>Core Concepts</h2>
           <ul>
             {coreConceptArray.map((core, index) => (
-              <CoreConcept
-                key={index}
-                title={core.title}
-                description={core.description}
-                img={core.img}
-              />
+              <CoreConcept key={index} {...core} />
             ))}
           </ul>
         </section>
@@ -61,18 +74,16 @@ function App() {
           <h2>Examples</h2>
           <menu>
             {coreConceptArray.map((core, index) => (
-              <TabButton onSelect={() => clickHandle(core.title)} key={index}>
+              <TabButton
+                isSelected={selectedTopic === core.field}
+                onSelect={() => clickHandle(core.title)}
+                key={index}
+              >
                 {core.title}
               </TabButton>
             ))}
           </menu>
-          <div id="tab-content">
-            <h3>{EXAMPLES[selectedTopic].title}</h3>
-            <p>{EXAMPLES[selectedTopic].description}</p>
-            <pre>
-              <code>{EXAMPLES[selectedTopic].code}</code>
-            </pre>
-          </div>
+          {tabContent}
         </section>
       </main>
     </div>
