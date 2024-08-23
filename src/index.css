@@ -40,8 +40,8 @@ body {
 }
 
 .input-group {
-  display: flex;
-  justify-content: space-evenly;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
 }
 
